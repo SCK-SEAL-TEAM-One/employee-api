@@ -6,8 +6,8 @@ import (
     _ "github.com/go-sql-driver/mysql"
 )
 
-func connectDB() (*sql.DB, error){
-    return sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/testsck")
+func ConnectDB() (*sql.DB, error){
+    return sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/sckemployee")
 }
 
 type IService interface {
