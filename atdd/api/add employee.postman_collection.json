@@ -1,0 +1,67 @@
+{
+	"info": {
+		"_postman_id": "7f17d383-acf7-4cb9-94d7-53c0ec6f7ba7",
+		"name": "EmployeeSCK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AddEmployee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9bea7849-d504-44f3-a9f9-7d01acab2a36",
+						"type": "text/javascript",
+						"exec": [
+							"var employee = pm.response.json();",
+							"pm.test(\"Test_AddEmployee_Verify_NameTH\", function () {",
+							"    pm.expect(employee.NameTH).to.eql(\"นายภาณุมาศ แสนโท\");",
+							"});",
+							"pm.test(\"Test_AddEmployee_Verify_NameEN\", function () {",
+							"    pm.expect(employee.NameTH).to.eql(\"PANUMARS SEANTO\");",
+							"});",
+							"pm.test(\"Test_AddEmployee_Verify_CitizenID\", function () {",
+							"    pm.expect(employee.NameTH).to.eql(\"1-3703-000012-54-8\");",
+							"});",
+							"pm.test(\"Test_AddEmployee_Verify_BirthDayBE\", function () {",
+							"    pm.expect(employee.NameTH).to.eql(\"17 เมษายน 2539\");",
+							"});",
+							"pm.test(\"Test_AddEmployee_Verify_BirthDayBC\", function () {",
+							"    pm.expect(employee.NameTH).to.eql(\"17 April 1996\");",
+							"});",
+							"pm.test(\"Test_AddEmployee_Verify_Telephone\", function () {",
+							"    pm.expect(employee.NameTH).to.eql(\"09-1467-6299\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\tNameTH:\"นายภาณุมาศ แสนโท\"\n\tNameEN:\"PANUMARS SEANTO\"\n\tCitizenID:\"1-3703-000012-54-8\"\n\tBirthDayBE:\"17 เมษายน 2539\"\n\tBirthDayBC:\"17 April 1996\"\n\tTelephone:\"0914676299\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/addemployee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addemployee"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
