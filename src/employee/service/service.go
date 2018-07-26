@@ -1,48 +1,75 @@
 package service
 
 import (
-    "time"
-    "database/sql"
-    _ "github.com/go-sql-driver/mysql"
+	"database/sql"
+	"employee/model"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
+<<<<<<< HEAD
 func ConnectDB() (*sql.DB, error){
     return sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/sckemployee")
 }
 
 type IService interface {
-    DeleteEmployee(id string) bool
+	AddEmployee(employee model.EmployeeRequest) (model.EmployeeResponse, error)
+	DeleteEmployee(id string) bool
 }
 
 type MockService struct {
-
 }
 
-func  (s *MockService) DeleteEmployee(id string) bool {
-    return true;
+func (s *MockService) AddEmployee(employee model.EmployeeRequest) (model.EmployeeResponse, error) {
+	return model.EmployeeResponse{
+		NameTH:     "นายภาณุมาศ แสนโท",
+		NameEN:     "PANUMARS SEANTO",
+		CitizenID:  "1-3703-000012-54-8",
+		BirthDayBE: "17 เมษายน 2539",
+		BirthDayBC: "17 April 1996",
+		Telephone:  "0914676299",
+	}, nil
+}
+
+func (s *MockService) DeleteEmployee(id string) bool {
+	return true
 }
 
 type Service struct {
-    DB *sql.DB 
+	DB *sql.DB
 }
 
-type Employee struct{
-    Id int   `json:"id"`
-    NameTH string `json:"NameTH"`
-    NameEN string `json:"NameEN"`
-    CitizenID string `json:"CitizenID"`
-    Birthday time.Time `json:"CitizenID"`
-    Telephone string `json:"telephone"`
+func (s *Service) AddEmployee(employee model.EmployeeRequest) (model.EmployeeResponse, error) {
+	insertStatement, err := s.DB.Prepare("INSERT INTO employees(nameTH,nameEN,citizenID,birthday,telephone) VALUES( ?, ?, ?, ?, ? )")
+	if err != nil {
+		return model.EmployeeResponse{}, err
+	}
+	defer insertStatement.Close()
+	_, err = insertStatement.Exec(employee.NameTH, employee.NameEN, employee.CitizenID, employee.Birthday, employee.Telephone)
+	if err != nil {
+		return model.EmployeeResponse{}, err
+	}
+	queryStatement, err := s.DB.Prepare("SELECT * FROM employees WHERE citizenID = ?")
+	if err != nil {
+		return model.EmployeeResponse{}, err
+	}
+	defer queryStatement.Close()
+	var newEmployee model.Employee
+	err = queryStatement.QueryRow(1).Scan(&newEmployee)
 
+	var employeeResponse model.EmployeeResponse
+
+	return employeeResponse, nil
 }
-func  (s *Service) DeleteEmployee(id string) bool {
 
-    statement,_ := s.DB.Prepare("DELETE FROM  employees WHERE id=?")
-    defer statement.Close()
-    _,err := statement.Exec(id)
-    if err != nil {
-        
-        return false
-    }
-    return true
+func (s *Service) DeleteEmployee(id string) bool {
+
+	statement, _ := s.DB.Prepare("DELETE FROM  employees WHERE id=?")
+	defer statement.Close()
+	_, err := statement.Exec(id)
+	if err != nil {
+
+		return false
+	}
+	return true
 }
