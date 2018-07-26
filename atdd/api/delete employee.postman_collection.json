@@ -1,0 +1,49 @@
+{
+	"info": {
+		"_postman_id": "7e1a537b-6d3b-4b08-bd7d-a3ead7955495",
+		"name": "delete employee",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "delete employee by id 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "99bea711-0417-4c95-95b4-fb0ecc8d9cb9",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/employees?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"employees"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
